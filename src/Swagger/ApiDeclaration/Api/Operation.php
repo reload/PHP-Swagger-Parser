@@ -30,7 +30,19 @@ class Operation extends Document {
     public function setType($type) {
         return parent::setDocumentProperty('type', $type);
     }
-    
+
+    public function getItems() {
+        $items = parent::getSubDocuments('items', function($index, $item) {
+            return $item;
+        }, true);
+        $items = empty($items) ? array() : $items;
+        return implode('', $items);
+    }
+
+    public function setItems($items) {
+        return parent::setSubDocuments('items', $items);
+    }
+
     public function getParameters() {
         return parent::getSubDocuments('parameters', array(get_called_class(), 'parameterFromDocument'));
     }
