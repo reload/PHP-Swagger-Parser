@@ -7,16 +7,16 @@ use InvalidArgumentException;
 
 class Model extends Document {
     protected $name;
-    
+
     public function __construct($document = null, $name) {
         $this->setName($name);
         parent::__construct($document);
     }
-    
+
     public function getName() {
         return $this->name;
     }
-    
+
     public function setName($name) {
         $this->name = $name;
         return $this;
@@ -25,7 +25,7 @@ class Model extends Document {
     public function getId() {
         return parent::getDocumentProperty('id');
     }
-    
+
     public function setId($id) {
         return parent::setDocumentProperty('id', $id);
     }
@@ -41,11 +41,19 @@ class Model extends Document {
     public function getProperties() {
         return parent::getSubDocuments('properties', array(get_called_class(), 'propertyFromDocument'), true);
     }
-    
+
     public function setProperties($properties) {
         return parent::setSubDocuments('properties', $properties, 'Swagger\ApiDeclaration\Model\Property');
     }
-    
+
+    public function getRequired() {
+        return parent::getDocumentProperty('required');
+    }
+
+    public function setRequired($required) {
+        return parent::setDocumentProperty('required', $required);
+    }
+
     public static function propertyFromDocument($name, $document) {
         return new Property($document, $name);
     }
